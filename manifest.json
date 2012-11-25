@@ -1,0 +1,27 @@
+{
+  "name": "Character-Reminder",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Highlight kanji from list of those the user knows",
+  "background": {
+	"scripts": [ "background.js" ],
+	"persistent": false
+  },
+  "content_scripts": [
+      {
+	  "matches" : ["http://*/*", "https://*/*" ],
+	  "js" : [ "content.js" ],
+	  "css": ["content.css"],
+	  "run_at" : "document_idle",
+	  "all_frames" : false,
+	  "exclude_globs": [ "http://*.wanikani.com/*", "https://*.wanikani.com/*" ]
+      },
+      {
+	  "matches" : [ "http://*.wanikani.com/kanji*", "https://*.wanikani.com/kanji*" ],
+	  "js" : [ "jquery.js", "wanikanicontent.js" ],
+	  "run_at" : "document_idle",
+	  "all_frames" : false
+      }
+  ],
+  "permissions": ["http://*/*", "https://*/*", "tabs"]
+}
