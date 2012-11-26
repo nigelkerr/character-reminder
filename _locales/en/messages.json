@@ -1,0 +1,10 @@
+{
+    "extName": {
+	"message": "Character-Reminder",
+	"description": "Extension name."
+    },
+    "desc": {
+	"message": "Highlight kanji from list of those the user knows",
+	"description": "Extension description."
+    }
+}

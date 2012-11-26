@@ -1,8 +1,8 @@
 {
-  "name": "Character-Reminder",
-  "version": "0.1",
+  "name": "__MSG_extName__",
+  "version": "0.2",
   "manifest_version": 2,
-  "description": "Highlight kanji from list of those the user knows",
+  "description": "__MSG_desc__",
   "background": {
 	"scripts": [ "background.js" ],
 	"persistent": false
@@ -23,5 +23,6 @@
 	  "all_frames" : false
       }
   ],
-  "permissions": ["http://*/*", "https://*/*", "tabs"]
+  "permissions": ["http://*/*", "https://*/*", "tabs"],
+  "default_locale": "en"
 }

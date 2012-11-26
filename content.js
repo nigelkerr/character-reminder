@@ -61,9 +61,9 @@ function highlightKanji() {
     console.log("done with highlightKanji");
 }
 
-function hasKanjiToHighlight(rubySubstr) {
+function hasKanjiToHighlight(str) {
     console.log("Starting hasKanjiToHighlight");
-    var foundKanji = rubySubstr.match(/[\u3400-\u9FBF]/g);
+    var foundKanji = str.match(/[\u3400-\u9FBF]/g);
     if (foundKanji) {
 	for (var x = 0; x < foundKanji.length; x++) {
 	    if (kanjiregexp.exec(foundKanji[x])) {
@@ -88,7 +88,6 @@ chrome.extension.sendRequest({message: "kanji"}, function(response) {
 	kanjiregexp = new RegExp("[" + kanji + "]");
 	kanjiclumpregexp = new RegExp("["+kanji+"]+");
     }
-    // stolen from furigana injector 1.2.1!  ha!
     if (document.body.innerText.match(/[\u3400-\u9FBF]/)) {
 	highlightKanji();
     }
