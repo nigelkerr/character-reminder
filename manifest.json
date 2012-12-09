@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extName__",
-  "version": "0.2",
+  "version": "0.3",
   "manifest_version": 2,
   "description": "__MSG_desc__",
   "background": {
@@ -23,6 +23,8 @@
 	  "all_frames" : false
       }
   ],
-  "permissions": ["http://*/*", "https://*/*", "tabs"],
-  "default_locale": "en"
+  "permissions": ["http://*/*", "https://*/*", "tabs", "storage"],
+  "default_locale": "en",
+
+  "options_page": "options.html"
 }
