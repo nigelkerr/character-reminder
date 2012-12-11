@@ -15,7 +15,7 @@
 	  "run_at" : "document_idle",
 	  "all_frames" : false,
 	  "exclude_globs": [ "http://*.wanikani.com/*", "https://*.wanikani.com/*" ]
-      },
+      }
   ],
   "permissions": ["http://*/*", "https://*/*", "tabs", "storage"],
   "default_locale": "en",
