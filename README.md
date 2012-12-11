@@ -6,6 +6,9 @@ is supposed to know on Wani-Kani.  Original intent was to highlight
 Kanji that I am supposed to know already in web pages, as inspiration.
 I wish that I had a firmer pedagogical basis than that.
 
+Git clone this down or fetch the zip (https://github.com/nigelkerr/character-reminder/archive/master.zip) then install in Chrome
+as an unpacked extension.
+
 Not very sophisticated.  Barely documented. Owes a lot of inspiration
 and snippets of code to the very-sophisticated Furigana Injector
 (http://code.google.com/p/furigana-injector/).
