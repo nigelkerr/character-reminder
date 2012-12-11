@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extName__",
-  "version": "0.3",
+  "version": "0.5",
   "manifest_version": 2,
   "description": "__MSG_desc__",
   "background": {
@@ -16,12 +16,6 @@
 	  "all_frames" : false,
 	  "exclude_globs": [ "http://*.wanikani.com/*", "https://*.wanikani.com/*" ]
       },
-      {
-	  "matches" : [ "http://*.wanikani.com/kanji*", "https://*.wanikani.com/kanji*" ],
-	  "js" : [ "jquery.js", "wanikanicontent.js" ],
-	  "run_at" : "document_idle",
-	  "all_frames" : false
-      }
   ],
   "permissions": ["http://*/*", "https://*/*", "tabs", "storage"],
   "default_locale": "en",

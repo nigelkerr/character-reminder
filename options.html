@@ -1,19 +1,37 @@
 <html>
-<head><title>My Test Extension Options</title>
-<script src="jquery.js"></script>
-<script src="options.js"></script>
-</head>
-<body>
+  <head>
 
-Favorite Color:
-<select id="color">
- <option value="red">red</option>
- <option value="green">green</option>
- <option value="blue">blue</option>
- <option value="yellow">yellow</option>
-</select>
+    <title>Options</title>
+    <script src="jquery.js"></script>
+    <script src="options.js"></script>
+  </head>
+  <body>
 
-<div id="status"></div>
-<button class="save">Save</button>
-</body>
+    <div class="option-group wanikani">
+
+      <p>Enter your Wani-Kani API key (from <a href="http://www.wanikani.com/account" target="_blank">http://www.wanikani.com/account</a>).
+
+      <input id="wanikaniapi" type="text"/>
+      <div class="howdy"></div>
+      
+      <button id="check-wanikani" disabled="disabled">Check</button>
+      <button id="refresh-wanikani" disabled="disabled">Refresh</button>
+
+      <div id="wanikaniblocks"></div>
+
+    </div>
+
+    <div class="option-group userentered">
+
+      <p>Enter any kanji not included elsewhere that you'd like to have high-lit.</p>
+
+      <textarea id="userentered">
+      </textarea>
+
+    </div>
+
+    <button class="save">Save</button>
+    <div class="status"></div>
+
+  </body>
 </html>

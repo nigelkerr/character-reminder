@@ -1,3 +1,4 @@
+// this used to be the way i was scraping the list of kanji.  deprecated.
 
 console.log("Starting wanikanicontent.js");
 
