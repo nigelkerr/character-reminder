@@ -20,6 +20,7 @@ Kanji on the page that are listed as you supposedly knowing them.  This string y
 It would be nice if:
 
 * Visiting wanikani.com's Kanji pages would auto-populate the known-Kanji list
+* * or if their new API helped out (2012-12-08), we'll see
 * The highlight color/effects could be user selectable
 * One had the option to add additional Kanji to the list by hand in a configuration dialog
 * Words and vocabulary could be highlit as well as just straight-up Kanji
