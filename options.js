@@ -6,7 +6,8 @@ var userlevel = 0;
 var options_vars = ["wanikaniapi", "userentered", "wk1", "wk2", "wk3", "wk4", "wk5", "wk6", "wk7", "wk8", "wk9", "wk10", "wk11", "wk12", "wk13", "wk14", "wk15", "wk16", "wk17", "wk18", "wk19", "wk20", "wk21", "wk22", "wk23", "wk24", "wk25", "wk26", "wk27", "wk28", "wk29", "wk30", "wk31", "wk32", "wk33", "wk34", "wk35", "wk36", "wk37", "wk38", "wk39", "wk40", "wk41", "wk42", "wk43", "wk44", "wk45", "wk46", "wk47", "wk48", "wk49", "wk50" ];
 
 function status(msg) {
-    jQuery('#status').prepend('<p>'+msg+'</p>');
+    jQuery('#status').empty();
+    jQuery('#status').append('<p>'+msg+'</p>');
 }
 
 function save_option(key) {
@@ -24,7 +25,7 @@ function save_option(key) {
     storage.set(obj, 
 		function() { 
 		    console.log("saved " + key + " with " + obj);
-		    status("Saved an option: " + key + "=" + obj[key]);
+		    //status("Saved an option: " + key + "=" + obj[key]);
 		});
 }
 
@@ -115,22 +116,33 @@ function check_wanikani() {
 			 save_option("wanikaniapi");
 			 refresh_wanikani();
 		     }});
+    } else {
+	jQuery('.howdy').empty();
     }
 }
 
 jQuery(document).ready(function () {
 
     jQuery("#wanikaniapi").change(check_wanikani);
+    jQuery("#wanikaniapi").keydown(check_wanikani);
+    jQuery("#wanikaniapi").keyup(check_wanikani);
+    jQuery("#wanikaniapi").keypress(check_wanikani);
+
     jQuery("#userentered").change(save_userentered);
+    jQuery("#userentered").keydown(save_userentered);
+    jQuery("#userentered").keyup(save_userentered);
+    jQuery("#userentered").keypress(save_userentered);
 
     // get out the user-entered, and the wanikaniapi, if there are any.
     storage.get(options_vars, function(items) {
 	console.log(items);
 	if (items.wanikaniapi != null && items.wanikaniapi != '') {
 	    jQuery('#wanikaniapi').val(items.wanikaniapi);
+	    jQuery('#wanikaniapi').change();
 	}
 	if ( items.userentered != null && items.userentered != '') {
 	    jQuery('#userentered').val(items.userentered);
+	    jQuery('#userentered').change();
 	}
 	for ( var i = 0; i < 50; i++ ) {
 	    var j = "wk" + i;
