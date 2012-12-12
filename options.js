@@ -5,13 +5,31 @@ var WKAK = "WANI_KANI_API_KEY";
 var userlevel = 0;
 var options_vars = ["wanikaniapi", "userentered", "wk1", "wk2", "wk3", "wk4", "wk5", "wk6", "wk7", "wk8", "wk9", "wk10", "wk11", "wk12", "wk13", "wk14", "wk15", "wk16", "wk17", "wk18", "wk19", "wk20", "wk21", "wk22", "wk23", "wk24", "wk25", "wk26", "wk27", "wk28", "wk29", "wk30", "wk31", "wk32", "wk33", "wk34", "wk35", "wk36", "wk37", "wk38", "wk39", "wk40", "wk41", "wk42", "wk43", "wk44", "wk45", "wk46", "wk47", "wk48", "wk49", "wk50" ];
 
-function lock_wanikani() {
-    jQuery('#check-wanikani').attr('disabled', 'disabled');
-    jQuery('#refresh-wanikani').attr('disabled', 'disabled');
+function status(msg) {
+    jQuery('#status').prepend('<p>'+msg+'</p>');
 }
-function unlock_wanikani() {
-    jQuery('#check-wanikani').removeAttr('disabled');
-    jQuery('#refresh-wanikani').removeAttr('disabled');
+
+function save_option(key) {
+    var obj = {};
+    if ( key == "wanikaniapi" || key == "userentered" ) {
+	obj[key] = jQuery('#'+key).val();
+    } else if ( key.match(/^wk[0-9]+$/) ) {
+	obj[key] = jQuery('#'+key).text();
+    } else {
+	console.log("No such key " + key + " understood!");
+	
+	return;
+    }
+
+    storage.set(obj, 
+		function() { 
+		    console.log("saved " + key + " with " + obj);
+		    status("Saved an option: " + key + "=" + obj[key]);
+		});
+}
+
+function save_userentered() {
+    save_option("userentered");
 }
 
 function save_options() {
@@ -35,27 +53,6 @@ function save_options() {
 		});
 }
 
-function check_wanikani() {
-    console.log("trying to check wanikani for api key validity.");
-    var tmpkey = jQuery('#wanikaniapi').val();
-    console.log("tmpkey is " + tmpkey);
-    if ( tmpkey != null && tmpkey != '' && tmpkey.match(/^[0-9a-f]{32}$/ )) {
-	var tmpuserinfo = userinfo.replace(WKAK, tmpkey);
-	console.log("tmpuserinfo url is " + tmpuserinfo);
-	jQuery.ajax({'cache': false,
-		     'dataType': 'json',
-		     'url': tmpuserinfo, 
-		     'error': function(jqXHR, textStatus, errorThrown) {
-			 console.log(textStatus);
-			 jQuery('.howdy').text("We didn't get a good response back, but an '"+textStatus+"' known as '"+errorThrown+"' instead. WK could be unhappy, or you may have not got the API Key quite right.");
-		     },
-		     'success': function(data, textStatus, jqXHR) {
-			 console.log(data);
-			 jQuery('.howdy').text("Howdy, " + data.user_information.username + "!");
-			 userlevel = data.user_information.level;
-		     }});
-    }
-}
 
 function kanji_with_stats(data) {
     var k = data.requested_information;
@@ -89,24 +86,48 @@ function refresh_wanikani() {
 		     },
 		     'success': function(data, textStatus, jqXHR) {
 			 console.log(data);
-			 jQuery('#wanikaniblocks').append('<div class="wk-lvl" id="wk'+ data.requested_information[0].level +'">'+kanji_with_stats(data)+'</div>');
+			 jQuery('#wanikaniblocks').append('<div class="wk-block">Kanji from level '+data.requested_information[0].level+': <span class="wk-lvl" id="wk'+ data.requested_information[0].level +'">'+kanji_with_stats(data)+'</span></div>');
+			 save_option("wk"+ data.requested_information[0].level)
 		     }});
 	lvl = lvl + 1;
     };
 }
 
+function check_wanikani() {
+    console.log("trying to check wanikani for api key validity.");
+    var tmpkey = jQuery('#wanikaniapi').val();
+    console.log("tmpkey is " + tmpkey);
+    if ( tmpkey != null && tmpkey != '' && tmpkey.match(/^[0-9a-f]{32}$/ )) {
+	var tmpuserinfo = userinfo.replace(WKAK, tmpkey);
+	console.log("tmpuserinfo url is " + tmpuserinfo);
+	jQuery.ajax({'cache': false,
+		     'dataType': 'json',
+		     'url': tmpuserinfo, 
+		     'error': function(jqXHR, textStatus, errorThrown) {
+			 console.log(textStatus);
+			 jQuery('.howdy').text("We didn't get a good response back, but an '"+textStatus+"' known as '"+errorThrown+"' instead. WK could be unhappy, or you may have not got the API Key quite right.");
+		     },
+		     'success': function(data, textStatus, jqXHR) {
+			 console.log(data);
+			 jQuery('.howdy').text("Howdy, " + data.user_information.username + ", of level " + data.user_information.level + "!");
+			 status("WaniKani responded nicely to our ping!");
+			 userlevel = data.user_information.level;
+			 save_option("wanikaniapi");
+			 refresh_wanikani();
+		     }});
+    }
+}
+
 jQuery(document).ready(function () {
 
     jQuery("#wanikaniapi").change(check_wanikani);
-    jQuery("#check-wanikani").click(check_wanikani);
-    jQuery('#refresh-wanikani').click(refresh_wanikani);
+    jQuery("#userentered").change(save_userentered);
 
-    // get out the user-entered, and the wani-kani, if there are any.
+    // get out the user-entered, and the wanikaniapi, if there are any.
     storage.get(options_vars, function(items) {
 	console.log(items);
 	if (items.wanikaniapi != null && items.wanikaniapi != '') {
 	    jQuery('#wanikaniapi').val(items.wanikaniapi);
-	    unlock_wanikani();
 	}
 	if ( items.userentered != null && items.userentered != '') {
 	    jQuery('#userentered').val(items.userentered);
@@ -114,10 +135,10 @@ jQuery(document).ready(function () {
 	for ( var i = 0; i < 50; i++ ) {
 	    var j = "wk" + i;
 	    if ( j in items ) {
-		jQuery('#wanikaniblocks').append('<div class="wk-lvl" id="'+j+'">'+items[j]+'</div>');
+		jQuery('#wanikaniblocks').append('<div class="wk-block">Kanji from level '+i+': <span class="wk-lvl" id="'+j+'">'+items[j]+'</span></div>');
 	    }
 	}
     } );
 
-    jQuery("button.save").bind('click', save_options);
+
 });
