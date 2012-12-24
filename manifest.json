@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extName__",
-  "version": "0.6",
+  "version": "0.7",
   "manifest_version": 2,
   "description": "__MSG_desc__",
   "background": {
@@ -10,13 +10,14 @@
   "content_scripts": [
       {
 	  "matches" : ["http://*/*", "https://*/*" ],
-	  "js" : [ "content.js" ],
+	  "js" : [ "jquery.js", "content.js" ],
 	  "css": ["content.css"],
 	  "run_at" : "document_idle",
 	  "all_frames" : false,
 	  "exclude_globs": [ "http://*.wanikani.com/*", "https://*.wanikani.com/*" ]
       }
   ],
+  "page_action": { "default_icon": "ji19x19.png", "default_title": "字" },
   "permissions": ["http://*/*", "https://*/*", "tabs", "storage"],
   "default_locale": "en",
 

@@ -6,6 +6,7 @@ chrome.extension.onRequest.addListener(
   function(request, sender, sendResponseCallback) {
     console.log("starting request listener");
     if ( request.message == "kanji" ) {
+	chrome.pageAction.show(sender.tab.id);
 	storage.get(options_vars, function(items) {
 	    var bkanji = '';
 	    console.log(items);
@@ -27,3 +28,6 @@ chrome.extension.onRequest.addListener(
   }
 );
 
+chrome.pageAction.onClicked.addListener(function(tab) {
+    chrome.tabs.executeScript(tab.id, {code:"toggleHighlightKanji();"});
+});

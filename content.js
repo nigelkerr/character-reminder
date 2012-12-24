@@ -1,4 +1,6 @@
 
+var ACTIVE = 'kanji_that_you_know';
+var MARKER = 'futoji_marker';
 var kanji = null;
 var kanjiregexp = null;
 var kanjiclumpregexp = null;
@@ -6,14 +8,32 @@ var includeLinkText = true;
 
 console.log("starting content.js");
 
-function highlightKanji() {
+function toggleHighlightKanji() {
     console.log("starting highlightKanji");
+
+    if ( jQuery("."+ACTIVE).length ) {
+	console.log("trying to remove");
+	removeHighlightKanji();
+    } else {
+	console.log("trying to add");
+	highlightKanji();
+    }
+}
+
+function removeHighlightKanji() {
+    jQuery("."+MARKER+"."+ACTIVE).each(function(index) {
+	jQuery(this).replaceWith(this.textContent);
+    });
+}
+
+
+function highlightKanji() {
     if ( kanjiregexp == null ) {
 	console.log("no kanji regexp, quitting.");
 	return;
     }
 
-    var xPathPattern = '//*[not(ancestor-or-self::head) and not(ancestor::select) and not(ancestor-or-self::script)and not(ancestor-or-self::ruby)' + (includeLinkText ? '' : ' and not(ancestor-or-self::a)') + ']/text()[normalize-space(.) != ""]';
+    var xPathPattern = '//*[not(ancestor-or-self::head) and not(ancestor::select) and not(ancestor-or-self::script) ' + (includeLinkText ? '' : ' and not(ancestor-or-self::a)') + ']/text()[normalize-space(.) != ""]';
     var foundNodes = {};
     try {
 	var iterator = document.evaluate(xPathPattern, document.body, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
@@ -28,7 +48,6 @@ function highlightKanji() {
 	    nodeCtr++;
 	}
     } catch (e) {
-	alert('Error during XPath document iteration: ' + e );
 	console.error( 'Error during XPath document iteration: ' + e );
 	return;
     }
@@ -47,7 +66,7 @@ function highlightKanji() {
 		newNode = wrapNode.nextSibling;
 
 		var span = document.createElement("span");
-		span.className = 'kanji_that_you_know';
+		jQuery(span).addClass( ACTIVE + " " + MARKER);
 		span.textContent = result[0];
 		var pNode = wrapNode.parentNode;
 		pNode.insertBefore(span, wrapNode);
@@ -56,7 +75,6 @@ function highlightKanji() {
 		break;
 	    }
 	} while ( node = newNode );
-	node.textContent = node.textContent.replace(kanjiregexp, "<span class='kanji_that_you_know'>$&</span>")
     }
     console.log("done with highlightKanji");
 }
@@ -77,18 +95,16 @@ function hasKanjiToHighlight(str) {
     return false;
 }
 
-
-chrome.extension.sendRequest({message: "kanji"}, function(response) {
-    console.log("starting kanji callback handler with " + response);
-    kanji = response.kanjilist;
-    if ( kanji == null || kanji.length <= 0 ) {
-	console.log("got nothing back as kanji!");
-    } else {
-	console.log("got back some kanji: " + kanji);
-	kanjiregexp = new RegExp("[" + kanji + "]");
-	kanjiclumpregexp = new RegExp("["+kanji+"]+");
-    }
-    if (document.body.innerText.match(/[\u3400-\u9FBF]/)) {
-	highlightKanji();
-    }
-});
+if ( document.body.innerText.match(/[\u3400-\u9FBF]/) ) {
+    chrome.extension.sendRequest({message: "kanji"}, function(response) {
+	console.log("starting kanji callback handler with " + response);
+	kanji = response.kanjilist;
+	if ( kanji == null || kanji.length <= 0 ) {
+	    console.log("got nothing back as kanji!");
+	} else {
+	    console.log("got back some kanji: " + kanji);
+	    kanjiregexp = new RegExp("[" + kanji + "]");
+	    kanjiclumpregexp = new RegExp("["+kanji+"]+");
+	}
+    });
+}
