@@ -96,7 +96,8 @@ function hasKanjiToHighlight(str) {
 }
 
 if ( document.body.innerText.match(/[\u3400-\u9FBF]/) ) {
-    chrome.extension.sendRequest({message: "kanji"}, function(response) {
+    console.log("trying to call background page");
+    chrome.extension.sendMessage({message: "kanji"}, function(response) {
 	console.log("starting kanji callback handler with " + response);
 	kanji = response.kanjilist;
 	if ( kanji == null || kanji.length <= 0 ) {
