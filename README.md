@@ -31,3 +31,6 @@ It would be nice if:
 * The highlight color/effects could be user selectable
 * Words and vocabulary could be highlit as well as just straight-up Kanji
 * There was a better reason to use this plugin than "inspiration"!
+
+
+Version 0.9: uses https urls to talk to wanikani.

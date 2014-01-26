@@ -1,6 +1,6 @@
 var storage = chrome.storage.sync;
-var userinfo = "http://www.wanikani.com/api/v1/user/WANI_KANI_API_KEY/user-information";
-var kanjilist = "http://www.wanikani.com/api/v1/user/WANI_KANI_API_KEY/kanji/";
+var userinfo = "https://www.wanikani.com/api/v1/user/WANI_KANI_API_KEY/user-information";
+var kanjilist = "https://www.wanikani.com/api/v1/user/WANI_KANI_API_KEY/kanji/";
 var WKAK = "WANI_KANI_API_KEY";
 var userlevel = 0;
 var options_vars = ["wanikaniapi", "userentered", "wk1", "wk2", "wk3", "wk4", "wk5", "wk6", "wk7", "wk8", "wk9", "wk10", "wk11", "wk12", "wk13", "wk14", "wk15", "wk16", "wk17", "wk18", "wk19", "wk20", "wk21", "wk22", "wk23", "wk24", "wk25", "wk26", "wk27", "wk28", "wk29", "wk30", "wk31", "wk32", "wk33", "wk34", "wk35", "wk36", "wk37", "wk38", "wk39", "wk40", "wk41", "wk42", "wk43", "wk44", "wk45", "wk46", "wk47", "wk48", "wk49", "wk50" ];
